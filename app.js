@@ -29,9 +29,13 @@ if (fs.existsSync(SESSION_FILE_PATH)) {
 }
 
 app.get('/', (req, res) => {
-  res.sendFile('index.html', {
-    root: __dirname
-  });
+  // res.sendFile('index.html', {
+  //   root: __dirname
+  // });
+  res.writeHead(301,
+    {Location: 'https://evoting.ft.uts.ac.id'}
+  );
+  res.end();
 });
 
 const client = new Client({
@@ -129,8 +133,10 @@ const checkRegisteredNumber = async function(number) {
 
 // Send message
 app.post('/send-message', [
+  body('tokenapi').notEmpty(),
   body('number').notEmpty(),
-  body('message').notEmpty(),
+  body('nama').notEmpty(),
+  body('token').notEmpty(),
 ], async (req, res) => {
   const errors = validationResult(req).formatWith(({
     msg
@@ -146,9 +152,17 @@ app.post('/send-message', [
   }
 
   const number = phoneNumberFormatter(req.body.number);
-  const message = req.body.message;
-
+  const tokenapi = req.body.tokenapi;
+  const message = 'Halo ' + req.body.nama + ', Data anda terkait E-Voting Fakultas Teknik 2020/2021 sudah kami Verifikasi. \n\nSilahkan login menggunakan Token yang anda dapatkan dan password yang anda sudah buat. \nToken anda adalah: ' + req.body.token + '. \n\nHubungi https://wa.me/6282260879023 jika mengalami kendala(Via Whatsapp). \nTerima Kasih, Selamat Memilih!';
+  
+  if (tokenapi != '$2y$10$DW9iRCyU1Urj5nOI6Dp4he8lISFk2cItJgCIrnkbzCxmZeo8Ca4ya') {
+    return res.status(422).json({
+      status: false,
+      message: 'Token Missmatch!'
+    });
+  }
   const isRegisteredNumber = await checkRegisteredNumber(number);
+
 
   if (!isRegisteredNumber) {
     return res.status(422).json({
