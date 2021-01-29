@@ -56,28 +56,28 @@ const client = new Client({
   session: sessionCfg
 });
 
-client.on('message', msg => {
-  if (msg.body == '!ping') {
-    msg.reply('pong');
-  } else if (msg.body == 'good morning') {
-    msg.reply('selamat pagi');
-  } else if (msg.body == '!groups') {
-    client.getChats().then(chats => {
-      const groups = chats.filter(chat => chat.isGroup);
+// client.on('message', msg => {
+//   if (msg.body == '!ping') {
+//     msg.reply('pong');
+//   } else if (msg.body == 'good morning') {
+//     msg.reply('selamat pagi');
+//   } else if (msg.body == '!groups') {
+//     client.getChats().then(chats => {
+//       const groups = chats.filter(chat => chat.isGroup);
 
-      if (groups.length == 0) {
-        msg.reply('You have no group yet.');
-      } else {
-        let replyMsg = '*YOUR GROUPS*\n\n';
-        groups.forEach((group, i) => {
-          replyMsg += `ID: ${group.id._serialized}\nName: ${group.name}\n\n`;
-        });
-        replyMsg += '_You can use the group id to send a message to the group._'
-        msg.reply(replyMsg);
-      }
-    });
-  }
-});
+//       if (groups.length == 0) {
+//         msg.reply('You have no group yet.');
+//       } else {
+//         let replyMsg = '*YOUR GROUPS*\n\n';
+//         groups.forEach((group, i) => {
+//           replyMsg += `ID: ${group.id._serialized}\nName: ${group.name}\n\n`;
+//         });
+//         replyMsg += '_You can use the group id to send a message to the group._'
+//         msg.reply(replyMsg);
+//       }
+//     });
+//   }
+// });
 
 client.initialize();
 
@@ -153,7 +153,7 @@ app.post('/send-message', [
 
   const number = phoneNumberFormatter(req.body.number);
   const tokenapi = req.body.tokenapi;
-  const message = 'Halo ' + req.body.nama + ', Data anda terkait E-Voting Fakultas Teknik 2020/2021 sudah kami Verifikasi. \n\nSilahkan login menggunakan Token yang anda dapatkan dan password yang anda sudah buat. \nToken anda adalah: ' + req.body.token + '. \n\nHubungi https://wa.me/6282260879023 jika mengalami kendala(Via Whatsapp). \nTerima Kasih, Selamat Memilih!';
+  const message = 'Halo ' + req.body.nama + ', Data anda terkait E-Voting Fakultas Teknik 2020/2021 sudah kami Verifikasi. \n\nSilahkan login menggunakan Token yang anda dapatkan dan password yang anda sudah buat. \nToken anda adalah: ' + req.body.token + '.\nHalaman Login: https://evoting.ft.uts.ac.id/masuk/' + req.body.token + '\n\nHubungi https://wa.me/6282260879023 jika mengalami kendala(Via Whatsapp). \nTerima Kasih, Selamat Memilih!';
   
   if (tokenapi != '$2y$10$DW9iRCyU1Urj5nOI6Dp4he8lISFk2cItJgCIrnkbzCxmZeo8Ca4ya') {
     return res.status(422).json({
