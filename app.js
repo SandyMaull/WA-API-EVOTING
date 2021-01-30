@@ -8,7 +8,8 @@ const fs = require('fs');
 const { phoneNumberFormatter } = require('./helpers/formatter');
 const fileUpload = require('express-fileupload');
 const axios = require('axios');
-const port = process.env.PORT || 1380;
+const hostname = 'api.evoting.ft.uts.ac.id' || '127.0.0.1';
+const port = 1380;
 
 const app = express();
 const server = http.createServer(app);
@@ -280,6 +281,6 @@ app.post('/send-group-message', [
   });
 });
 
-server.listen(port, function() {
-  console.log('App running on *: ' + port);
+server.listen(port, hostname, function() {
+  console.log('App running on ' + hostname + ': ' + port);
 });
