@@ -137,6 +137,7 @@ const checkRegisteredNumber = async function(number) {
 // Send message
 app.post('/send-message', [
   body('tokenapi').notEmpty(),
+  body('namapil').notEmpty(),
   body('number').notEmpty(),
   body('nama').notEmpty(),
   body('token').notEmpty(),
@@ -159,7 +160,7 @@ app.post('/send-message', [
   const number = phoneNumberFormatter(req.body.number);
   const tokenapi = req.body.tokenapi;
   // const message = req.body.message;
-  const message = 'Halo ' + req.body.nama + ', Data anda terkait E-Voting UTS sudah terverifikasi. \n\nSilahkan login menggunakan Identitas (NIM/NIP/NIDN) dan TOKEN yang anda dapatkan. \nToken anda adalah: ' + req.body.token + '\nHalaman Login: ' + req.body.url + '\n\nHubungi https://wa.me/6282260879023 jika mengalami kendala(Via Whatsapp). \nTerima Kasih, Selamat Memilih!';
+  const message = 'Halo ' + req.body.nama + ', Data anda terkait E-Voting ' + req.body.namapil + ' sudah terverifikasi. \n\nSilahkan login menggunakan Identitas (NIM/NIP/NIDN) dan TOKEN yang anda dapatkan. \nToken anda adalah: ' + req.body.token + '\nHalaman Login: ' + req.body.url + '\n\nHubungi https://wa.me/6282260879023 jika mengalami kendala(Via Whatsapp). \nTerima Kasih, Selamat Memilih!';
   
   if (tokenapi != '$2y$10$DW9iRCyU1Urj5nOI6Dp4he8lISFk2cItJgCIrnkbzCxmZeo8Ca4ya') {
     return res.status(422).json({
